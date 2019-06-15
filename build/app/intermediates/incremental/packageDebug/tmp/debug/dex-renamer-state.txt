@@ -1,0 +1,4 @@
+#Fri Jun 07 09:52:54 NZST 2019
+base.0=/Users/logan/Documents/todoapp/build/app/intermediates/transforms/dexMerger/debug/0
+path.0=classes.dex
+renamed.0=classes.dex
