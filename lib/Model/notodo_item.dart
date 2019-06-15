@@ -47,7 +47,7 @@ class NoDoItem extends StatelessWidget {
         children: <Widget>[
           Text(
             _itemName,
-            style: TextStyle(
+            style: new TextStyle(
                 color: Colors.white, fontWeight: FontWeight.bold, fontSize: 17),
           ),
           new Container(
