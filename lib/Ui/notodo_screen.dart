@@ -56,7 +56,7 @@ class _NotoDoScreenState extends State<NotoDoScreen> {
       actions: <Widget>[
         new FlatButton(
             onPressed: () {
-              _handleSubmit(_textEditingController);
+              _handleSubmit(_textEditingController.text);
               _textEditingClear();
             },
             child: Text("Save")),
@@ -71,5 +71,13 @@ class _NotoDoScreenState extends State<NotoDoScreen> {
         builder: (_) {
           return alert; //returns widget a;ert
         });
+  }
+
+  readNoDolistItem() async {
+    List items = await db.getItems();
+    items.forEach((item) {
+      NoDoItem noDoItem = NoDoItem.map(items);
+      print("db items ${noDoItem.itemName}");
+    });
   }
 }
