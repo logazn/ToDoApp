@@ -10,6 +10,13 @@ class NotoDoScreen extends StatefulWidget {
 class _NotoDoScreenState extends State<NotoDoScreen> {
   final TextEditingController _textEditingController = TextEditingController();
   var db = new DatabaseHelper();
+
+  @override
+  void initState() {
+    super.initState();
+    readNoDolistItem();
+  }
+
   void _handleSubmit(String text) async {
     _textEditingController.clear();
 //create nodo item
@@ -47,7 +54,7 @@ class _NotoDoScreenState extends State<NotoDoScreen> {
               autofocus: true,
               decoration: new InputDecoration(
                   labelText: "Item",
-                  hintText: "eg. Don't buy stuff",
+                  hintText: "eg. Do homework",
                   icon: new Icon(Icons.note_add)),
             ),
           )
@@ -73,6 +80,7 @@ class _NotoDoScreenState extends State<NotoDoScreen> {
         });
   }
 
+//Gets list from db with db object
   readNoDolistItem() async {
     List items = await db.getItems();
     items.forEach((item) {

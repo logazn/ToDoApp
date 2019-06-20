@@ -17,6 +17,7 @@ class NoDoItem extends StatelessWidget {
   String get itemName => _itemName;
   String get dateCreated => _dateCreated;
   int get id => _id;
+
 //pulling from db, storing into map obj
   Map<String, dynamic> toMap() {
     var map = new Map<String, dynamic>();
