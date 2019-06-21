@@ -11,6 +11,8 @@ class _NotoDoScreenState extends State<NotoDoScreen> {
   final TextEditingController _textEditingController = TextEditingController();
   var db = new DatabaseHelper();
 
+  final List<NoDoItem> list = <NoDoItem>[];
+
   @override
   void initState() {
     super.initState();
@@ -23,7 +25,11 @@ class _NotoDoScreenState extends State<NotoDoScreen> {
     NoDoItem noDoItem = new NoDoItem(text, DateTime.now().toIso8601String());
     int savedItemId = await db.saveItem(noDoItem);
 
-    print("Item saved ID");
+    NoDoItem addedItem = await db.getItem(savedItemId);
+
+    setState(() {
+      list.insert(0, addedItem);
+    });
   }
 
   void _textEditingClear() {}
@@ -32,7 +38,32 @@ class _NotoDoScreenState extends State<NotoDoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black45,
-      body: Column(),
+      body: Column(
+        children: <Widget>[
+          new Flexible(
+            child: new ListView.builder(
+              itemCount: list.length,
+              padding: EdgeInsets.all(10.0),
+              itemBuilder: (_, int index) {
+                return Card(
+                  color: Colors.white,
+                  child: ListTile(
+                    title: list[index],
+                    onLongPress: () => debugPrint(""),
+                    trailing: new Listener(
+                      key: new Key(list[index].itemName),
+                      child: new Icon(Icons.delete),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          new Divider(
+            height: 1.0,
+          )
+        ],
+      ),
       floatingActionButton: new FloatingActionButton(
         tooltip: "Add Item",
         backgroundColor: Colors.redAccent,
