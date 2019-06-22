@@ -52,7 +52,7 @@ class _NotoDoScreenState extends State<NotoDoScreen> {
                     onLongPress: () => debugPrint(""),
                     trailing: new Listener(
                       key: new Key(list[index].itemName),
-                      child: new Icon(Icons.delete),
+                      child: new Icon(Icons.remove_circle),
                     ),
                   ),
                 );
