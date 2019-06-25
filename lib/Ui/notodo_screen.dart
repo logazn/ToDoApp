@@ -30,6 +30,7 @@ class _NotoDoScreenState extends State<NotoDoScreen> {
     setState(() {
       list.insert(0, addedItem);
     });
+    //print("Items saved so far are  $savedItemId" );
   }
 
   void _textEditingClear() {}
@@ -49,10 +50,15 @@ class _NotoDoScreenState extends State<NotoDoScreen> {
                   color: Colors.white,
                   child: ListTile(
                     title: list[index],
-                    onLongPress: () => debugPrint(""),
+                    onLongPress: () => updateItem(list[index], index),
                     trailing: new Listener(
                       key: new Key(list[index].itemName),
-                      child: new Icon(Icons.remove_circle),
+                      child: new Icon(
+                        Icons.remove_circle,
+                        color: Colors.redAccent,
+                      ),
+                      onPointerDown: (pointerEvent) =>
+                          deleteNoDo(list[index].id, index),
                     ),
                   ),
                 );
@@ -96,6 +102,7 @@ class _NotoDoScreenState extends State<NotoDoScreen> {
             onPressed: () {
               _handleSubmit(_textEditingController.text);
               _textEditingClear();
+              Navigator.pop(context);
             },
             child: Text("Save")),
         new FlatButton(
@@ -107,16 +114,57 @@ class _NotoDoScreenState extends State<NotoDoScreen> {
     showDialog(
         context: context,
         builder: (_) {
-          return alert; //returns widget a;ert
+          return alert; //returns widget
         });
   }
 
-//Gets list from db with db object
+  //Gets list from db with db object
   readNoDolistItem() async {
     List items = await db.getItems();
     items.forEach((item) {
-      NoDoItem noDoItem = NoDoItem.map(items);
-      print("db items ${noDoItem.itemName}");
+      // NoDoItem noDoItem = NoDoItem.map(items);
+      setState(() {
+        list.add(NoDoItem.map(item)); //add items whenever user starts the app
+      });
+      //  print("db items ${NoDoItem.itemName}");
     });
+  }
+
+  deleteNoDo(int id, index) async {
+    debugPrint("Deleted item");
+
+    await db.deleteItem(id);
+    setState(() {
+      list.removeAt(index);
+    });
+  }
+
+  updateItem(NoDoItem item, int index) {
+    var alert = new AlertDialog(
+      title: new Text("Update Item"),
+      content: new Row(
+        children: <Widget>[
+          new Expanded(
+              child: new TextField(
+            controller: _textEditingController,
+            autofocus: true,
+            decoration: new InputDecoration(
+                labelText: "item",
+                hintText: "Buy lunch",
+                icon: new Icon(Icons.update)),
+          ))
+        ],
+      ),
+      actions: <Widget>[
+        new FlatButton(
+          onPressed: () async {},
+          child: new Text("Update Item"),
+        ),
+        new FlatButton(
+          onPressed: () => Navigator.pop(context),
+          child: new Text("Cancel"),
+        )
+      ],
+    );
   }
 }

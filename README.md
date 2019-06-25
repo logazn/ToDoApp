@@ -10,3 +10,4 @@ It is still work in progess...
 []-- sign in with google play store & apple store
 []-- Share button for todo
 []-- Add report button which gives users textcontrol for reporting errors
+[]-- dark and light theme
