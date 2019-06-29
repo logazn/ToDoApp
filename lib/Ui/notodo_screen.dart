@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/Model/notodo_item.dart';
 import 'package:todoapp/Util/database_client.dart';
+import 'package:todoapp/Util/date_Formatter.dart';
 
 class NotoDoScreen extends StatefulWidget {
   @override
@@ -157,7 +158,14 @@ class _NotoDoScreenState extends State<NotoDoScreen> {
       ),
       actions: <Widget>[
         new FlatButton(
-          onPressed: () async {},
+          onPressed: () async {
+            NoDoItem noDoItemUpdated = new NoDoItem.fromMap({
+              "itemName": _textEditingController.text,
+              "dateCreated":
+                  dateFormatted(), //calls method in class date formatter to get date
+              "id": item.id
+            });
+          },
           child: new Text("Update Item"),
         ),
         new FlatButton(
@@ -166,5 +174,10 @@ class _NotoDoScreenState extends State<NotoDoScreen> {
         )
       ],
     );
+    showDialog(
+        context: context,
+        builder: (_) {
+          return alert; //returns widget
+        });
   }
 }
